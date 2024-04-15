@@ -1,4 +1,4 @@
-//! CLI that adds challenges to the freeCodeCamp database.
+//! CLI tool to alter the freeCodeCamp database.
 //!
 //! Assumes usage in the root of `freeCodeCamp/freeCodeCamp`. Otherwise, the `--curriculum-path` arg must be used to specify the relative location to the `curriculum.json` file.
 //!

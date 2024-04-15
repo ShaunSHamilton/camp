@@ -7,7 +7,10 @@ use clap::{Parser, Subcommand};
 #[command(author, version, about, long_about = None)]
 pub struct Args {
     /// MongoDB connection string
-    #[arg(long, default_value = "mongodb://127.0.0.1:27017")]
+    #[arg(
+        long,
+        default_value = "mongodb://127.0.0.1:27017/freecodecamp?directConnection=true"
+    )]
     pub uri: String,
 
     /// Username of user in the database
