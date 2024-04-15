@@ -31,4 +31,11 @@ pub enum SubCommand {
     /// Add ALL challenges to completedChallenges array
     #[clap(name = "finishFCC")]
     FinishFreeCodeCamp,
+
+    /// Add <n> random user records to the database
+    AddUsers {
+        /// Number of users to add
+        #[clap(short, long)]
+        count: u32,
+    },
 }

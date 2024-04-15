@@ -6,10 +6,12 @@ use clap::Parser;
 use inquire::{MultiSelect, Select};
 use mongodb::bson::{doc, Document};
 use std::path::Path;
+use user::generate_user;
 
 mod clapper;
 mod curriculum;
 mod db;
+mod user;
 
 use clapper::{Args, SubCommand};
 use curriculum::{Block, CertChallenge, Challenge, Curriculum};
@@ -96,6 +98,17 @@ fn main() -> mongodb::error::Result<()> {
             };
 
             collection.update_one(query, update, options)?;
+        }
+        SubCommand::AddUsers { count } => {
+            for _ in 0..count {
+                let user = generate_user();
+
+                // TODO: This cannot be the best way to convert
+                let user_string = serde_json::to_string(&user).unwrap();
+                let document: Document = serde_json::from_str(&user_string).unwrap();
+
+                collection.insert_one(document, None)?;
+            }
         }
     }
     Ok(())
