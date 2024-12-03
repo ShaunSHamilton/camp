@@ -49,7 +49,7 @@ pub struct Meta {
     pub dashed_name: String,
     #[serde(rename = "challengeOrder")]
     pub challenge_order: Vec<ChallengeOrder>,
-    pub order: u16,
+    pub order: Option<u16>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

@@ -6,7 +6,7 @@ use mongodb::{
 };
 
 pub fn get_collection(uri: &str) -> mongodb::error::Result<Collection<Document>> {
-    let mut client_options = ClientOptions::parse(uri)?;
+    let mut client_options = ClientOptions::parse(uri).run()?;
 
     // Set the server_api field of the client_options object to Stable API version 1
     let server_api = ServerApi::builder().version(ServerApiVersion::V1).build();
@@ -20,7 +20,8 @@ pub fn get_collection(uri: &str) -> mongodb::error::Result<Collection<Document>>
     println!("Connecting to database...");
     client
         .database("freecodecamp")
-        .run_command(doc! {"ping": 1}, None)?;
+        .run_command(doc! {"ping": 1})
+        .run()?;
     println!("Successfully connected to database!");
     let db = client.database("freecodecamp");
 

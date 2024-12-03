@@ -38,8 +38,6 @@ fn main() -> mongodb::error::Result<()> {
                 .flat_map(|cert_challenge| cert_challenge.tests.clone())
                 .collect::<Vec<_>>();
 
-            let options = None;
-
             // Push `{ id: challenge.id, completedDate: Date.now() }` to the `completedChallenges` array
             let update = doc! {
                 "$push": {
@@ -55,12 +53,10 @@ fn main() -> mongodb::error::Result<()> {
                 }
             };
 
-            collection.update_one(query, update, options)?;
+            collection.update_one(query, update).run()?;
         }
         SubCommand::AddChallenges => {
             let challenges = add_challenges(&curriculum).unwrap();
-
-            let options = None;
 
             // Push `{ id: challenge.id, completedDate: Date.now() }` to the `completedChallenges` array
             // TODO: Update completedDate, if challenge already completed.
@@ -77,12 +73,10 @@ fn main() -> mongodb::error::Result<()> {
                 }
             };
 
-            collection.update_one(query, update, options)?;
+            collection.update_one(query, update).run()?;
         }
         SubCommand::FinishFreeCodeCamp => {
             let challenges = get_challenges(&curriculum);
-
-            let options = None;
 
             let update = doc! {
                 "$push": {
@@ -97,7 +91,7 @@ fn main() -> mongodb::error::Result<()> {
                 }
             };
 
-            collection.update_one(query, update, options)?;
+            collection.update_one(query, update).run()?;
         }
         SubCommand::AddUsers { count } => {
             for _ in 0..count {
@@ -107,7 +101,7 @@ fn main() -> mongodb::error::Result<()> {
                 let user_string = serde_json::to_string(&user).unwrap();
                 let document: Document = serde_json::from_str(&user_string).unwrap();
 
-                collection.insert_one(document, None)?;
+                collection.insert_one(document).run()?;
             }
         }
     }
